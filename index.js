@@ -5,30 +5,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1 method
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://dummyjson.com/products', true);
-  xhr.onreadystatechange = function () {
-    if (xhr.status === 200) {
-      const data = JSON.parse(xhr.responseText);
-
-      console.log('data', data);
-      data.products.map((product, index) => {
-        return renderData(product, index);
-      });
-    }
-  };
+  xhr.addEventListener('load', () => {
+    // if (xhr.status === 200) {
+    const data = JSON.parse(xhr.responseText);
+    renderData(data);
+  });
 
   xhr.send();
 
-  function renderData(product, index) {
-    const name = document.createComment('p');
-    const price = document.createComment('p');
-    const img = document.createComment('img');
+  function renderData(data) {
+    data.products.map((product, index) => {
+      const name = document.createElement('p');
+      const price = document.createElement('p');
+      const img = document.createElement('img');
 
-    name.innerHTML = `${index} product.title`;
-    price.innerHTML = product.price;
-    img.setAttribute('src', product.thumbnail);
+      name.innerHTML = `${index + 1} ${product.title}`;
+      price.innerHTML = product.price;
+      img.setAttribute('src', product.thumbnail);
 
-    container.appendChild(name);
-    container.appendChild(price);
-    container.appendChild(img);
+      container.appendChild(name);
+      container.appendChild(price);
+      container.appendChild(img);
+
+      return container;
+    });
   }
+
+  // 2 method
 });
