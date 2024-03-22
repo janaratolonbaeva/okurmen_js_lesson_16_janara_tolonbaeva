@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-  //'https://dummyjson.com/products'
+  const urlAPI = 'https://dummyjson.com/products/?limit=10';
   const container = document.querySelector('.container');
 
   // 1 method
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://dummyjson.com/products', true);
-  xhr.addEventListener('load', () => {
-    // if (xhr.status === 200) {
-    const data = JSON.parse(xhr.responseText);
-    renderData(data);
-  });
+  // const xhr = new XMLHttpRequest();
+  // xhr.open('GET', urlAPI, true);
+  // xhr.addEventListener('load', () => {
+  //   // if (xhr.status === 200) {
+  //   const data = JSON.parse(xhr.responseText); // JSON.parse = json()
+  //   renderData(data);
+  // });
 
-  xhr.send();
+  // xhr.send();
 
   function renderData(data) {
     data.products.map((product, index) => {
@@ -26,10 +26,32 @@ document.addEventListener('DOMContentLoaded', () => {
       container.appendChild(name);
       container.appendChild(price);
       container.appendChild(img);
-
-      return container;
     });
   }
 
   // 2 method
+  // fetch(urlAPI)
+  //   .then(function (response) {
+  //     if (response.ok) {
+  //       return response.json();
+  //     }
+  //     throw new Error('Network response was not ok.');
+  //   })
+  //   .then(function (data) {
+  //     console.log('data', data);
+  //     renderData(data);
+  //   })
+  //   .catch(function (error) {
+  //     console.log('error', error);
+  //   });
+
+  axios
+    .get(urlAPI)
+    .then(function (response) {
+      renderData(response.data);
+      console.log('response', response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
